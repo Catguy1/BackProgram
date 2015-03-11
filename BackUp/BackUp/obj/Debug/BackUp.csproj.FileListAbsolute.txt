@@ -1,0 +1,11 @@
+c:\users\rene\documents\visual studio 2013\Projects\BackUp\BackUp\bin\Debug\BackUp.exe.config
+c:\users\rene\documents\visual studio 2013\Projects\BackUp\BackUp\bin\Debug\BackUp.exe
+c:\users\rene\documents\visual studio 2013\Projects\BackUp\BackUp\bin\Debug\BackUp.pdb
+c:\users\rene\documents\visual studio 2013\Projects\BackUp\BackUp\obj\Debug\BackUp.csprojResolveAssemblyReference.cache
+c:\users\rene\documents\visual studio 2013\Projects\BackUp\BackUp\obj\Debug\BackUp.Properties.Resources.resources
+c:\users\rene\documents\visual studio 2013\Projects\BackUp\BackUp\obj\Debug\BackUp.csproj.GenerateResource.Cache
+c:\users\rene\documents\visual studio 2013\Projects\BackUp\BackUp\obj\Debug\BackUp.exe
+c:\users\rene\documents\visual studio 2013\Projects\BackUp\BackUp\obj\Debug\BackUp.pdb
+C:\Users\Rene\Documents\Visual Studio 2013\Projects\BackUp\BackUp\obj\Debug\BackUp.BackUpForm.resources
+C:\Users\Rene\documents\visual studio 2013\Projects\BackUp\BackUp\obj\Debug\BackUp.Location.resources
+C:\Users\Rene\documents\visual studio 2013\Projects\BackUp\BackUp\obj\Debug\BackUp.Options.resources
