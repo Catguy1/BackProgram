@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Compression;
+using System.Configuration;
 
 namespace BackUp
 {
@@ -21,8 +22,10 @@ namespace BackUp
 
         private void BackUpForm_Load(object sender, EventArgs e)
         {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
+            string s = config.FilePath;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            string[] listPath = Settings.Default.WatchListKeepWatch.Split(';');
+            string[] listPath = Settings.Default.WatchListPath.Split(';');
             string[] listWatch = Settings.Default.WatchListKeepWatch.Split(';');
             DataTable table = new DataTable();
             table.Columns.Add("Path", typeof(string));
@@ -64,6 +67,21 @@ namespace BackUp
 
         private void dataBackUps_RowLeave(object sender, DataGridViewCellEventArgs e)
         {
+            string[] listPath = Settings.Default.WatchListPath.Split(';');
+            string[] listWatch = Settings.Default.WatchListKeepWatch.Split(';');
+            listPath[e.RowIndex] = dataBackUps.Rows[e.RowIndex].Cells[0].Value.ToString();
+            listWatch[e.RowIndex] = dataBackUps.Rows[e.RowIndex].Cells[1].Value.ToString();
+            Settings.Default.WatchListPath = "";
+            Settings.Default.WatchListKeepWatch = "";
+            for (int z = 0; z < listPath.Count(); z++)
+            {
+                if (listPath[z] != "")
+                {
+                    Settings.Default.WatchListPath += listPath[z] + ";";
+                    Settings.Default.WatchListKeepWatch += listWatch + ";";
+                }
+            }
+            Settings.Default.Save();
             btnOffOn.Enabled = false;
             btnOpen.Enabled = false;
             btnRestore.Enabled = false;
@@ -104,6 +122,25 @@ namespace BackUp
         {
             this.Show();
             this.Focus();
+        }
+
+        private void dataBackUps_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            string[] listPath = Settings.Default.WatchListPath.Split(';');
+            string[] listWatch = Settings.Default.WatchListKeepWatch.Split(';');
+            listPath[e.RowIndex] = "";
+            listWatch[e.RowIndex] = "";
+            Settings.Default.WatchListPath = "";
+            Settings.Default.WatchListKeepWatch = "";
+            for (int z = 0; z < listPath.Count(); z++)
+            {
+                if (listPath[z] != "")
+                {
+                    Settings.Default.WatchListPath += listPath[z] + ";";
+                    Settings.Default.WatchListKeepWatch += listWatch + ";";
+                }
+            }
+            Settings.Default.Save();
         }
     }
 }

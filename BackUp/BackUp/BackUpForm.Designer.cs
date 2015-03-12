@@ -31,6 +31,11 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BackUpForm));
             this.MenuIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.iconStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolShow = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolForceBackUp2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolQuit2 = new System.Windows.Forms.ToolStripMenuItem();
             this.dataBackUps = new System.Windows.Forms.DataGridView();
             this.btnAdd = new System.Windows.Forms.Button();
             this.menu = new System.Windows.Forms.MenuStrip();
@@ -46,16 +51,11 @@
             this.btnRestore = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.openBD = new System.Windows.Forms.FolderBrowserDialog();
-            this.iconStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolForceBackUp2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolQuit2 = new System.Windows.Forms.ToolStripMenuItem();
             this.bgWorker = new System.ComponentModel.BackgroundWorker();
             this.btnOpenFolder = new System.Windows.Forms.Button();
-            this.toolShow = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.iconStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataBackUps)).BeginInit();
             this.menu.SuspendLayout();
-            this.iconStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // MenuIcon
@@ -65,6 +65,41 @@
             this.MenuIcon.Text = "  BackUp 2015";
             this.MenuIcon.Visible = true;
             this.MenuIcon.DoubleClick += new System.EventHandler(this.MenuIcon_DoubleClick);
+            // 
+            // iconStrip
+            // 
+            this.iconStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolShow,
+            this.toolForceBackUp2,
+            this.toolStripSeparator1,
+            this.toolQuit2});
+            this.iconStrip.Name = "iconStrip";
+            this.iconStrip.Size = new System.Drawing.Size(169, 82);
+            // 
+            // toolShow
+            // 
+            this.toolShow.Name = "toolShow";
+            this.toolShow.Size = new System.Drawing.Size(168, 24);
+            this.toolShow.Text = "Show";
+            this.toolShow.Click += new System.EventHandler(this.toolShow_Click);
+            // 
+            // toolForceBackUp2
+            // 
+            this.toolForceBackUp2.Name = "toolForceBackUp2";
+            this.toolForceBackUp2.Size = new System.Drawing.Size(168, 24);
+            this.toolForceBackUp2.Text = "Force BackUp";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(165, 6);
+            // 
+            // toolQuit2
+            // 
+            this.toolQuit2.Name = "toolQuit2";
+            this.toolQuit2.Size = new System.Drawing.Size(168, 24);
+            this.toolQuit2.Text = "Quit";
+            this.toolQuit2.Click += new System.EventHandler(this.toolQuit2_Click);
             // 
             // dataBackUps
             // 
@@ -79,6 +114,7 @@
             this.dataBackUps.TabIndex = 0;
             this.dataBackUps.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataBackUps_RowEnter);
             this.dataBackUps.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataBackUps_RowLeave);
+            this.dataBackUps.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataBackUps_RowsRemoved);
             // 
             // btnAdd
             // 
@@ -113,13 +149,13 @@
             // toolForceBackUp
             // 
             this.toolForceBackUp.Name = "toolForceBackUp";
-            this.toolForceBackUp.Size = new System.Drawing.Size(175, 24);
+            this.toolForceBackUp.Size = new System.Drawing.Size(166, 24);
             this.toolForceBackUp.Text = "Force Backup";
             // 
             // toolQuit
             // 
             this.toolQuit.Name = "toolQuit";
-            this.toolQuit.Size = new System.Drawing.Size(175, 24);
+            this.toolQuit.Size = new System.Drawing.Size(166, 24);
             this.toolQuit.Text = "Quit";
             this.toolQuit.Click += new System.EventHandler(this.toolQuit_Click);
             // 
@@ -203,29 +239,6 @@
             // 
             this.openBD.Description = "Select a folder you want to keep backup";
             // 
-            // iconStrip
-            // 
-            this.iconStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolShow,
-            this.toolForceBackUp2,
-            this.toolStripSeparator1,
-            this.toolQuit2});
-            this.iconStrip.Name = "iconStrip";
-            this.iconStrip.Size = new System.Drawing.Size(176, 110);
-            // 
-            // toolForceBackUp2
-            // 
-            this.toolForceBackUp2.Name = "toolForceBackUp2";
-            this.toolForceBackUp2.Size = new System.Drawing.Size(175, 24);
-            this.toolForceBackUp2.Text = "Force BackUp";
-            // 
-            // toolQuit2
-            // 
-            this.toolQuit2.Name = "toolQuit2";
-            this.toolQuit2.Size = new System.Drawing.Size(175, 24);
-            this.toolQuit2.Text = "Quit";
-            this.toolQuit2.Click += new System.EventHandler(this.toolQuit2_Click);
-            // 
             // btnOpenFolder
             // 
             this.btnOpenFolder.Location = new System.Drawing.Point(1080, 31);
@@ -235,18 +248,6 @@
             this.btnOpenFolder.Text = "+";
             this.btnOpenFolder.UseVisualStyleBackColor = true;
             this.btnOpenFolder.Click += new System.EventHandler(this.btnOpenFolder_Click);
-            // 
-            // toolShow
-            // 
-            this.toolShow.Name = "toolShow";
-            this.toolShow.Size = new System.Drawing.Size(175, 24);
-            this.toolShow.Text = "Show";
-            this.toolShow.Click += new System.EventHandler(this.toolShow_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(172, 6);
             // 
             // BackUpForm
             // 
@@ -264,16 +265,17 @@
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.dataBackUps);
             this.Controls.Add(this.menu);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menu;
             this.MaximizeBox = false;
             this.Name = "BackUpForm";
             this.Text = "BackUp 2015";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BackUpForm_FormClosing);
             this.Load += new System.EventHandler(this.BackUpForm_Load);
+            this.iconStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataBackUps)).EndInit();
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
-            this.iconStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
