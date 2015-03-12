@@ -9,7 +9,6 @@ c:\users\rene\documents\visual studio 2013\Projects\BackUp\BackUp\obj\Debug\Back
 C:\Users\Rene\Documents\Visual Studio 2013\Projects\BackUp\BackUp\obj\Debug\BackUp.BackUpForm.resources
 C:\Users\Rene\documents\visual studio 2013\Projects\BackUp\BackUp\obj\Debug\BackUp.Location.resources
 C:\Users\Rene\documents\visual studio 2013\Projects\BackUp\BackUp\obj\Debug\BackUp.Options.resources
-<<<<<<< HEAD
 C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\bin\Debug\BackUp.exe.config
 C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\obj\Debug\BackUp.exe
 C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\obj\Debug\BackUp.pdb
@@ -24,3 +23,14 @@ C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\obj\Debug\BackUp.csproj.Genera
 =======
 C:\Users\frede_000\Documents\BackProgram\BackUp\BackUp\bin\Debug\BackUp.exe.config
 >>>>>>> 3397a91d7ad1058ac2457b576a9a153298d3d697
+D:\github\BackProgram\BackUp\BackUp\bin\Debug\BackUp.exe.config
+D:\github\BackProgram\BackUp\BackUp\bin\Debug\BackUp.exe
+D:\github\BackProgram\BackUp\BackUp\bin\Debug\BackUp.pdb
+D:\github\BackProgram\BackUp\BackUp\obj\Debug\BackUp.csprojResolveAssemblyReference.cache
+D:\github\BackProgram\BackUp\BackUp\obj\Debug\BackUp.BackUpForm.resources
+D:\github\BackProgram\BackUp\BackUp\obj\Debug\BackUp.Location.resources
+D:\github\BackProgram\BackUp\BackUp\obj\Debug\BackUp.Options.resources
+D:\github\BackProgram\BackUp\BackUp\obj\Debug\BackUp.Properties.Resources.resources
+D:\github\BackProgram\BackUp\BackUp\obj\Debug\BackUp.csproj.GenerateResource.Cache
+D:\github\BackProgram\BackUp\BackUp\obj\Debug\BackUp.exe
+D:\github\BackProgram\BackUp\BackUp\obj\Debug\BackUp.pdb
