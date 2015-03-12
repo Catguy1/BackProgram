@@ -146,5 +146,13 @@ namespace BackUp
         {
             lblCount.Text = barAmounts.Value.ToString();
         }
+
+        private void btnOpen_Click(object sender, EventArgs e)
+        {
+            if (openBD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                txtBackUpLocation.Text = openBD.SelectedPath;
+            }
+        }
     }
 }

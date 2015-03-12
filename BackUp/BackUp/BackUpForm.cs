@@ -25,17 +25,16 @@ namespace BackUp
         private void BackUpForm_Load(object sender, EventArgs e)
         {
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
             string path = Path.GetDirectoryName(config.FilePath);
             if (Directory.Exists(path) == false)
             {
-                Settings.Default.BackUpFolder = "c\\:";
+                Settings.Default.BackUpFolder = path;
                 Settings.Default.Save();
             }
-            connection = new SQLiteConnection("Data Source = " + path + "\\Tracker.db" + ";Version = 3");
             if (File.Exists(path + "\\Tracker.db") == false)
                 File.Copy(Application.StartupPath + "\\Tracker.db", path + "\\Tracker.db");
+            connection = new SQLiteConnection("Data Source = " + path + "\\Tracker.db" + ";Version = 3");    
             connection.Open();
             UpdateTable();
         }
@@ -187,14 +186,26 @@ namespace BackUp
         {
             if ((bool)dataBackUps.SelectedRows[0].Cells["Keep Watch"].Value == true)
             {
-                dataBackUps.SelectedRows[0].Cells["watch"].Value = "1";
-                GreenSQLite.Execute("UPDATE backups SET watch = 1 WHERE id = " + dataBackUps.SelectedRows[0].Cells["id"].Value.ToString(), connection);
+                dataBackUps.SelectedRows[0].Cells["watch"].Value = "0";
+                dataBackUps.SelectedRows[0].Cells["Keep Watch"].Value = false;
+                GreenSQLite.Execute("UPDATE backups SET watch = 0 WHERE id = " + dataBackUps.SelectedRows[0].Cells["id"].Value.ToString(), connection);
             }
             else
             {
-                dataBackUps.SelectedRows[0].Cells["watch"].Value = "0";
-                GreenSQLite.Execute("UPDATE backups SET watch = 0 WHERE id = " + dataBackUps.SelectedRows[0].Cells["id"].Value.ToString(), connection);
+                dataBackUps.SelectedRows[0].Cells["watch"].Value = "1";
+                dataBackUps.SelectedRows[0].Cells["Keep Watch"].Value = true;
+                GreenSQLite.Execute("UPDATE backups SET watch = 1 WHERE id = " + dataBackUps.SelectedRows[0].Cells["id"].Value.ToString(), connection);
             }
+        }
+
+        private void btnRestore_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnOpen_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
