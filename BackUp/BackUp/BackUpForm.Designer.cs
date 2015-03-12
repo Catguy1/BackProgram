@@ -54,6 +54,11 @@
             this.openBD = new System.Windows.Forms.FolderBrowserDialog();
             this.bgWorker = new System.ComponentModel.BackgroundWorker();
             this.btnOpenFolder = new System.Windows.Forms.Button();
+<<<<<<< HEAD
+            this.timer = new System.Windows.Forms.Timer(this.components);
+=======
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+>>>>>>> 41cfa1563dec1eafc00aad9c32efa669ccec9c2f
             this.iconStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataBackUps)).BeginInit();
             this.menu.SuspendLayout();
@@ -128,6 +133,7 @@
             this.btnAdd.Size = new System.Drawing.Size(67, 28);
             this.btnAdd.TabIndex = 1;
             this.btnAdd.Text = "Add";
+            this.toolTip1.SetToolTip(this.btnAdd, "Add the selected folder to the list of backups");
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
@@ -190,6 +196,7 @@
             this.btnDelete.Size = new System.Drawing.Size(397, 28);
             this.btnDelete.TabIndex = 4;
             this.btnDelete.Text = "Delete From BackUp List";
+            this.toolTip1.SetToolTip(this.btnDelete, "Deletes the selected backup completely");
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
@@ -202,6 +209,7 @@
             this.btnOffOn.Size = new System.Drawing.Size(397, 28);
             this.btnOffOn.TabIndex = 5;
             this.btnOffOn.Text = "Turn Off/On BackUp";
+            this.toolTip1.SetToolTip(this.btnOffOn, "Stop/Start the backup of the selected folder");
             this.btnOffOn.UseVisualStyleBackColor = true;
             this.btnOffOn.Click += new System.EventHandler(this.btnOffOn_Click);
             // 
@@ -225,7 +233,9 @@
             this.btnOpen.Size = new System.Drawing.Size(397, 28);
             this.btnOpen.TabIndex = 7;
             this.btnOpen.Text = "Open Place";
+            this.toolTip1.SetToolTip(this.btnOpen, "Opens the location of the selected backup");
             this.btnOpen.UseVisualStyleBackColor = true;
+            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // btnRestore
             // 
@@ -236,7 +246,9 @@
             this.btnRestore.Size = new System.Drawing.Size(397, 28);
             this.btnRestore.TabIndex = 8;
             this.btnRestore.Text = "Restore/Replace";
+            this.toolTip1.SetToolTip(this.btnRestore, "Restore the selected folder using the backup");
             this.btnRestore.UseVisualStyleBackColor = true;
+            this.btnRestore.Click += new System.EventHandler(this.btnRestore_Click);
             // 
             // label1
             // 
@@ -262,6 +274,7 @@
             this.btnOpenFolder.Size = new System.Drawing.Size(26, 28);
             this.btnOpenFolder.TabIndex = 10;
             this.btnOpenFolder.Text = "+";
+            this.toolTip1.SetToolTip(this.btnOpenFolder, "Select a folder to backup");
             this.btnOpenFolder.UseVisualStyleBackColor = true;
             this.btnOpenFolder.Click += new System.EventHandler(this.btnOpenFolder_Click);
             // 
@@ -323,6 +336,11 @@
         private System.Windows.Forms.Button btnOpenFolder;
         private System.Windows.Forms.ToolStripMenuItem toolShow;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+<<<<<<< HEAD
+        private System.Windows.Forms.Timer timer;
+=======
+        private System.Windows.Forms.ToolTip toolTip1;
+>>>>>>> 41cfa1563dec1eafc00aad9c32efa669ccec9c2f
     }
 }
 
