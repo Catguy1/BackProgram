@@ -54,22 +54,27 @@ namespace BackUp
         {
             if (txtPath.Text != "")
             {
-                if (Directory.Exists(txtPath.Text) == true)
+                if (GreenSQLite.GetTable("SELECT id FROM backups WHERE path = '" + txtPath.Text + "'", connection).Rows.Count == 0)
                 {
-                    if (Settings.Default.KeepWatchOnAdd == true)
-                        GreenSQLite.Execute("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 1)", connection);
-                    else
-                        GreenSQLite.Execute("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 0)", connection);
-                    UpdateTable();
+                    if (Directory.Exists(txtPath.Text) == true)
+                    {
+                        if (Settings.Default.KeepWatchOnAdd == true)
+                            GreenSQLite.Execute("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 1)", connection);
+                        else
+                            GreenSQLite.Execute("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 0)", connection);
+                        UpdateTable();
+                    }
+                    else if (MessageBox.Show("You are about to add a folder their does not exits, are you sure you want to add it?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        if (Settings.Default.KeepWatchOnAdd == true)
+                            GreenSQLite.Execute("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 1)", connection);
+                        else
+                            GreenSQLite.Execute("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 0)", connection);
+                        UpdateTable();
+                    }
                 }
-                else if (MessageBox.Show("You are about to add a folder their does not exits, are you sure you want to add it?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
-                {
-                    if (Settings.Default.KeepWatchOnAdd == true)
-                        GreenSQLite.Execute("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 1)", connection);
-                    else
-                        GreenSQLite.Execute("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 0)", connection);
-                    UpdateTable();
-                }
+                else
+                    MessageBox.Show("The path is allready on the list", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -169,6 +174,20 @@ namespace BackUp
             if (e.KeyData == Keys.Delete)
             {
                 GreenSQLite.Execute("DELETE FROM backups WHERE id = " + dataBackUps.SelectedRows[0].Cells["id"].Value.ToString(), connection);
+            }
+        }
+
+        private void btnOffOn_Click(object sender, EventArgs e)
+        {
+            if ((bool)dataBackUps.SelectedRows[0].Cells["Keep Watch"].Value == true)
+            {
+                dataBackUps.SelectedRows[0].Cells["watch"].Value = "1";
+                GreenSQLite.Execute("UPDATE backups SET watch = 1 WHERE id = " + dataBackUps.SelectedRows[0].Cells["id"].Value.ToString(), connection);
+            }
+            else
+            {
+                dataBackUps.SelectedRows[0].Cells["watch"].Value = "0";
+                GreenSQLite.Execute("UPDATE backups SET watch = 0 WHERE id = " + dataBackUps.SelectedRows[0].Cells["id"].Value.ToString(), connection);
             }
         }
     }

@@ -197,6 +197,7 @@
             this.btnOffOn.TabIndex = 5;
             this.btnOffOn.Text = "Turn Off/On BackUp";
             this.btnOffOn.UseVisualStyleBackColor = true;
+            this.btnOffOn.Click += new System.EventHandler(this.btnOffOn_Click);
             // 
             // txtLog
             // 
