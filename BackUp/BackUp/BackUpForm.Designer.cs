@@ -54,6 +54,7 @@
             this.openBD = new System.Windows.Forms.FolderBrowserDialog();
             this.bgWorker = new System.ComponentModel.BackgroundWorker();
             this.btnOpenFolder = new System.Windows.Forms.Button();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.iconStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataBackUps)).BeginInit();
             this.menu.SuspendLayout();
@@ -313,6 +314,7 @@
         private System.Windows.Forms.Button btnOpenFolder;
         private System.Windows.Forms.ToolStripMenuItem toolShow;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.Timer timer;
     }
 }
 

@@ -11,6 +11,8 @@ using System.Windows.Forms;
 using System.IO.Compression;
 using System.Configuration;
 using System.Data.SQLite;
+using Shell32;
+using IWshRuntimeLibrary;
 
 namespace BackUp
 {
@@ -32,8 +34,9 @@ namespace BackUp
                 Settings.Default.BackUpFolder = path;
                 Settings.Default.Save();
             }
-            if (File.Exists(path + "\\Tracker.db") == false)
-                File.Copy(Application.StartupPath + "\\Tracker.db", path + "\\Tracker.db");
+            if (System.IO.File.Exists(path + "\\Tracker.db") == false)
+                System.IO.File.Copy(Application.StartupPath + "\\Tracker.db", path + "\\Tracker.db");
+            SetWatchUp();
             connection = new SQLiteConnection("Data Source = " + path + "\\Tracker.db" + ";Version = 3");    
             connection.Open();
             UpdateTable();
@@ -63,19 +66,25 @@ namespace BackUp
                 {
                     if (Directory.Exists(txtPath.Text) == true)
                     {
+                        int id = 0;
                         if (Settings.Default.KeepWatchOnAdd == true)
-                            GreenSQLite.Execute("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 1)", connection);
+                            id = GreenSQLite.ExecuteScaler("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 1)", connection);
                         else
-                            GreenSQLite.Execute("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 0)", connection);
+                            id = GreenSQLite.ExecuteScaler("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 0)", connection);
                         UpdateTable();
+                        Directory.CreateDirectory(Settings.Default.BackUpFolder + "\\" + id.ToString());
+                        AddTextToLog("New folder added to watch.");
                     }
                     else if (MessageBox.Show("You are about to add a folder their does not exits, are you sure you want to add it?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
                     {
+                        int id = 0;
                         if (Settings.Default.KeepWatchOnAdd == true)
-                            GreenSQLite.Execute("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 1)", connection);
+                            id = GreenSQLite.ExecuteScaler("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 1)", connection);
                         else
-                            GreenSQLite.Execute("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 0)", connection);
+                            id = GreenSQLite.ExecuteScaler("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 0)", connection);
                         UpdateTable();
+                        Directory.CreateDirectory(Settings.Default.BackUpFolder + "\\" + id.ToString());
+                        AddTextToLog("New folder added to watch.");
                     }
                 }
                 else
@@ -114,8 +123,48 @@ namespace BackUp
         {
             Options form = new Options();
             form.ShowDialog();
-        }
 
+        }
+        private void SetWatchUp()
+        {
+            if (Settings.Default.StartOnStartUp == true)
+            {
+                if (System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + "\\BackUp 2015.lnk") == false)
+                {
+                    IWshShell_Class wsh = new IWshShell_Class();
+                    IWshRuntimeLibrary.IWshShortcut shortcut = wsh.CreateShortcut(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + "\\BackUp 2015.lnk") as IWshRuntimeLibrary.IWshShortcut;
+                    shortcut.TargetPath = Application.StartupPath + "\\BackUp.exe";
+                    shortcut.Save();
+                }
+            }
+            else
+            {
+                if (System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + "\\BackUp 2015.lnk") == true)
+                    System.IO.File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + "\\BackUp 2015.lnk");
+            }
+            if (Settings.Default.UpdateByMins == true)
+            {
+                timer.Interval = Settings.Default.UpdateByMinsMins * 60000;
+                timer.Enabled = true;
+            }
+            else if (Settings.Default.UpdateByTime == true)
+            {
+                timer.Interval = 30000;
+                timer.Enabled = true;
+            }
+            else if (Settings.Default.UpdateByManual == true)
+            {
+                timer.Enabled = false;
+            }
+            else if (Settings.Default.UpdateByClose == true)
+            {
+                timer.Enabled = false;
+            }
+            else if (Settings.Default.UpdateByEdit == true)
+            {
+                timer.Enabled = false;
+            }
+        }
         private void BackUpForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason != CloseReason.ApplicationExitCall)
@@ -163,6 +212,7 @@ namespace BackUp
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            Directory.Delete(Settings.Default.BackUpFolder + "\\" + dataBackUps.SelectedRows[0].Cells["id"].Value.ToString(), true);
             GreenSQLite.Execute("DELETE FROM backups WHERE id = " + dataBackUps.SelectedRows[0].Cells["id"].Value.ToString(), connection);
             dataBackUps.Rows.RemoveAt(dataBackUps.SelectedRows[0].Index);
             if (dataBackUps.SelectedRows.Count == 0)
@@ -178,7 +228,15 @@ namespace BackUp
         {
             if (e.KeyData == Keys.Delete)
             {
+                Directory.Delete(Settings.Default.BackUpFolder + "\\" + dataBackUps.SelectedRows[0].Cells["id"].Value.ToString(), true);
                 GreenSQLite.Execute("DELETE FROM backups WHERE id = " + dataBackUps.SelectedRows[0].Cells["id"].Value.ToString(), connection);
+                if (dataBackUps.SelectedRows.Count == 0)
+                {
+                    btnOffOn.Enabled = false;
+                    btnOpen.Enabled = false;
+                    btnRestore.Enabled = false;
+                    btnDelete.Enabled = false;
+                }
             }
         }
 
@@ -206,6 +264,12 @@ namespace BackUp
         private void btnOpen_Click(object sender, EventArgs e)
         {
 
+        }
+        private void AddTextToLog(string text)
+        {
+            txtLog.Text += text + "\n";
+            txtLog.SelectionStart = txtLog.Text.Length - 1;
+            txtLog.ScrollToCaret();
         }
     }
 }
