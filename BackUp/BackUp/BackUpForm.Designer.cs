@@ -54,11 +54,8 @@
             this.openBD = new System.Windows.Forms.FolderBrowserDialog();
             this.bgWorker = new System.ComponentModel.BackgroundWorker();
             this.btnOpenFolder = new System.Windows.Forms.Button();
-<<<<<<< HEAD
             this.timer = new System.Windows.Forms.Timer(this.components);
-=======
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
->>>>>>> 41cfa1563dec1eafc00aad9c32efa669ccec9c2f
             this.iconStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataBackUps)).BeginInit();
             this.menu.SuspendLayout();
@@ -336,11 +333,8 @@
         private System.Windows.Forms.Button btnOpenFolder;
         private System.Windows.Forms.ToolStripMenuItem toolShow;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-<<<<<<< HEAD
         private System.Windows.Forms.Timer timer;
-=======
         private System.Windows.Forms.ToolTip toolTip1;
->>>>>>> 41cfa1563dec1eafc00aad9c32efa669ccec9c2f
     }
 }
 

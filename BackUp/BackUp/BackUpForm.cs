@@ -13,6 +13,7 @@ using System.Configuration;
 using System.Data.SQLite;
 using Shell32;
 using IWshRuntimeLibrary;
+using System.Diagnostics;
 
 namespace BackUp
 {
@@ -263,7 +264,7 @@ namespace BackUp
 
         private void btnOpen_Click(object sender, EventArgs e)
         {
-
+            Process.Start(Settings.Default.BackUpFolder + "\\" + dataBackUps.SelectedRows[0].Cells["id"].Value.ToString());
         }
         private void AddTextToLog(string text)
         {
