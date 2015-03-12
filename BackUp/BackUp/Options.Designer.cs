@@ -134,19 +134,25 @@
             // 
             this.txtMins.Enabled = false;
             this.txtMins.Location = new System.Drawing.Point(184, 50);
+            this.txtMins.MaxLength = 2;
             this.txtMins.Name = "txtMins";
             this.txtMins.Size = new System.Drawing.Size(24, 22);
             this.txtMins.TabIndex = 6;
             this.txtMins.Text = "00";
+            this.txtMins.TextChanged += new System.EventHandler(this.TextChanged);
+            this.txtMins.Leave += new System.EventHandler(this.txtMins_Leave);
             // 
             // txtHours
             // 
             this.txtHours.Enabled = false;
             this.txtHours.Location = new System.Drawing.Point(136, 50);
+            this.txtHours.MaxLength = 2;
             this.txtHours.Name = "txtHours";
             this.txtHours.Size = new System.Drawing.Size(24, 22);
             this.txtHours.TabIndex = 5;
             this.txtHours.Text = "12";
+            this.txtHours.TextChanged += new System.EventHandler(this.TextChanged);
+            this.txtHours.Leave += new System.EventHandler(this.txtHours_Leave);
             // 
             // rbUpdateWhenTime
             // 
@@ -173,11 +179,13 @@
             // 
             this.txtMin.Enabled = false;
             this.txtMin.Location = new System.Drawing.Point(380, 23);
+            this.txtMin.MaxLength = 10;
             this.txtMin.Name = "txtMin";
             this.txtMin.Size = new System.Drawing.Size(72, 22);
             this.txtMin.TabIndex = 2;
             this.txtMin.Text = "120";
-            this.txtMin.TextChanged += new System.EventHandler(this.txtMin_TextChanged);
+            this.txtMin.TextChanged += new System.EventHandler(this.TextChanged);
+            this.txtMin.Leave += new System.EventHandler(this.txtMin_Leave);
             // 
             // rbUpdateInRegion
             // 

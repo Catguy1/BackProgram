@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Compression;
+using System.Configuration;
 
 namespace BackUp
 {
@@ -21,6 +22,8 @@ namespace BackUp
 
         private void BackUpForm_Load(object sender, EventArgs e)
         {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
+            string s = config.FilePath;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             string[] listPath = Settings.Default.WatchListPath.Split(';');
             string[] listWatch = Settings.Default.WatchListKeepWatch.Split(';');
