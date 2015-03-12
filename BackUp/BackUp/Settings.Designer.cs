@@ -178,5 +178,41 @@ namespace BackUp {
                 this["StartOnStartUp"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("120")]
+        public int UpdateByMinsMins {
+            get {
+                return ((int)(this["UpdateByMinsMins"]));
+            }
+            set {
+                this["UpdateByMinsMins"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("12")]
+        public int UpdateByTimeHours {
+            get {
+                return ((int)(this["UpdateByTimeHours"]));
+            }
+            set {
+                this["UpdateByTimeHours"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int UpdateByTimeMins {
+            get {
+                return ((int)(this["UpdateByTimeMins"]));
+            }
+            set {
+                this["UpdateByTimeMins"] = value;
+            }
+        }
     }
 }

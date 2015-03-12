@@ -32,6 +32,9 @@ namespace BackUp
             rbUpdateWhenTime.Checked = Settings.Default.UpdateByTime;
             rbTime.Checked = Settings.Default.UpdateByMins;
             chStart.Checked = Settings.Default.StartOnStartUp;
+            txtHours.Text = Settings.Default.UpdateByTimeHours.ToString();
+            txtMins.Text = Settings.Default.UpdateByTimeMins.ToString();
+            txtMin.Text = Settings.Default.UpdateByMinsMins.ToString();
         }
 
         private void rbTime_CheckedChanged(object sender, EventArgs e)
@@ -72,7 +75,20 @@ namespace BackUp
         }
         private void Save()
         {
-            
+            Settings.Default.BackUpFolder = txtBackUpLocation.Text;
+            Settings.Default.BackVersionsKeep = barAmounts.Value;
+            Settings.Default.UpdateByClose = rbComputerClosing.Checked;
+            Settings.Default.CompressNone = rbComNone.Checked;
+            Settings.Default.CompressRar = rbComRar.Checked;
+            Settings.Default.CompressZip = rbComZip.Checked;
+            Settings.Default.UpdateByManual = rbUdateManual.Checked;
+            Settings.Default.UpdateByEdit = rbUpdateInRegion.Checked;
+            Settings.Default.UpdateByTime = rbUpdateWhenTime.Checked;
+            Settings.Default.UpdateByMins = rbTime.Checked;
+            Settings.Default.StartOnStartUp = chStart.Checked;
+            Settings.Default.UpdateByTimeHours = int.Parse(txtHours.Text);
+            Settings.Default.UpdateByTimeMins = int.Parse(txtMins.Text);
+            Settings.Default.UpdateByMinsMins = int.Parse(txtMin.Text);
             Settings.Default.Save();
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.Close();
@@ -84,7 +100,7 @@ namespace BackUp
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
         }
 
-        private void txtMin_TextChanged(object sender, EventArgs e)
+        private void TextChanged(object sender, EventArgs e)
         {
             for (int z = 0; z < txtMin.Text.Length; z++)
             {
@@ -94,6 +110,34 @@ namespace BackUp
                     z--;
                 }
             }
+        }
+
+        private void txtHours_Leave(object sender, EventArgs e)
+        {
+            if (txtHours.Text == "")
+                txtHours.Text = "0";
+            else if (int.Parse(txtHours.Text) > 24)
+                txtHours.Text = "24";
+            else if (int.Parse(txtHours.Text) < 0)
+                txtHours.Text = "0";
+        }
+
+        private void txtMins_Leave(object sender, EventArgs e)
+        {
+            if (txtMins.Text == "")
+                txtHours.Text = "0";
+            else if (int.Parse(txtHours.Text) > 24)
+                txtMins.Text = "0";
+            if (int.Parse(txtMins.Text) < 0)
+                txtMins.Text = "0";
+            else if (int.Parse(txtMins.Text) > 59)
+                txtMins.Text = "59";
+        }
+
+        private void txtMin_Leave(object sender, EventArgs e)
+        {
+            if (txtMin.Text == "")
+                txtMin.Text = "1";
         }
     }
 }
