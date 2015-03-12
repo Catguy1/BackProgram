@@ -25,8 +25,14 @@ namespace BackUp
         private void BackUpForm_Load(object sender, EventArgs e)
         {
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
             string path = Path.GetDirectoryName(config.FilePath);
+            if (Directory.Exists(path) == false)
+            {
+                Settings.Default.BackUpFolder = "c\\:";
+                Settings.Default.Save();
+            }
             connection = new SQLiteConnection("Data Source = " + path + "\\Tracker.db" + ";Version = 3");
             if (File.Exists(path + "\\Tracker.db") == false)
                 File.Copy(Application.StartupPath + "\\Tracker.db", path + "\\Tracker.db");
