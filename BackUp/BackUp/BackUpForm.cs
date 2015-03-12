@@ -11,12 +11,15 @@ using System.Windows.Forms;
 using System.IO.Compression;
 using System.Configuration;
 using System.Data.SQLite;
+using System.Diagnostics;
 
 namespace BackUp
 {
     public partial class BackUpForm : Form
     {
         public SQLiteConnection connection;
+        public static List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
+
         public BackUpForm()
         {
             InitializeComponent();
@@ -33,9 +36,10 @@ namespace BackUp
                 Settings.Default.BackUpFolder = "c\\:";
                 Settings.Default.Save();
             }
-            connection = new SQLiteConnection("Data Source = " + path + "\\Tracker.db" + ";Version = 3");
             if (File.Exists(path + "\\Tracker.db") == false)
                 File.Copy(Application.StartupPath + "\\Tracker.db", path + "\\Tracker.db");
+            connection = new SQLiteConnection("Data Source = " + path + "\\Tracker.db" + ";Version = 3");
+
             connection.Open();
             UpdateTable();
         }
@@ -46,7 +50,11 @@ namespace BackUp
             foreach (DataRow row in table.Rows)
             {
                 if (row["watch"].ToString() == "1")
+                {
                     row["Keep Watch"] = true;
+                    Watch(row[1].ToString());
+                }
+
                 else
                     row["Keep Watch"] = false;
             }
@@ -69,6 +77,7 @@ namespace BackUp
                         else
                             GreenSQLite.Execute("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 0)", connection);
                         UpdateTable();
+
                     }
                     else if (MessageBox.Show("You are about to add a folder their does not exits, are you sure you want to add it?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
                     {
@@ -98,6 +107,7 @@ namespace BackUp
             btnOpen.Enabled = true;
             btnRestore.Enabled = true;
             btnDelete.Enabled = true;
+           
         }
 
         private void dataBackUps_RowLeave(object sender, DataGridViewCellEventArgs e)
@@ -196,5 +206,40 @@ namespace BackUp
                 GreenSQLite.Execute("UPDATE backups SET watch = 0 WHERE id = " + dataBackUps.SelectedRows[0].Cells["id"].Value.ToString(), connection);
             }
         }
+
+        //methods
+
+        private void Watch(string watchFolder)
+        {
+            FileSystemWatcher watcher = new FileSystemWatcher(); //opret ny watcher
+            watcher.Path = watchFolder; //kig på folder
+            watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName; //se efter ændring
+            watcher.Filter = "*.*"; //se efter alle filtyper
+            watcher.Changed += Watcher_OnChanged; //opret eventhandler
+            watcher.Created += Watcher_OnChanged; //opret eventhandler
+            watcher.Deleted += Watcher_OnChanged; //opret eventhandler
+            watcher.Renamed += Watcher_OnRenamed;    //opret eventhandler
+            watcher.EnableRaisingEvents = true;
+            watchers.Add(watcher);
+        }
+
+        public void Watcher_OnChanged(object source, FileSystemEventArgs e)
+        {
+            //laves i morgen ----
+            //Der skal laves sikkerhed, så 1 ting ikke har mange filewatchers
+            //Den skal kunne rename de filer der allerede ligger i zip filen.
+            //Der skal laves så den tilføjer nye filer til zip filen
+            txtLog.AppendText(e.Name + "Changed");
+        }
+        public void Watcher_OnRenamed(object source, RenamedEventArgs e)
+        {
+            if (txtLog.InvokeRequired == true)
+            {
+                txtLog.Invoke((MethodInvoker)delegate { txtLog.AppendText(e.Name + " renamed"); });
+            }
+            
+        }
+
     }
 }
+    
