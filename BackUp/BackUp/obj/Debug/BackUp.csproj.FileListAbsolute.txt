@@ -9,3 +9,14 @@ c:\users\rene\documents\visual studio 2013\Projects\BackUp\BackUp\obj\Debug\Back
 C:\Users\Rene\Documents\Visual Studio 2013\Projects\BackUp\BackUp\obj\Debug\BackUp.BackUpForm.resources
 C:\Users\Rene\documents\visual studio 2013\Projects\BackUp\BackUp\obj\Debug\BackUp.Location.resources
 C:\Users\Rene\documents\visual studio 2013\Projects\BackUp\BackUp\obj\Debug\BackUp.Options.resources
+C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\bin\Debug\BackUp.exe.config
+C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\obj\Debug\BackUp.exe
+C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\obj\Debug\BackUp.pdb
+C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\bin\Debug\BackUp.exe
+C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\bin\Debug\BackUp.pdb
+C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\obj\Debug\BackUp.csprojResolveAssemblyReference.cache
+C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\obj\Debug\BackUp.BackUpForm.resources
+C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\obj\Debug\BackUp.Location.resources
+C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\obj\Debug\BackUp.Options.resources
+C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\obj\Debug\BackUp.Properties.Resources.resources
+C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\obj\Debug\BackUp.csproj.GenerateResource.Cache
