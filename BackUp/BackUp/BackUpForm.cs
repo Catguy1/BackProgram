@@ -10,11 +10,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Compression;
 using System.Configuration;
+using System.Data.SQLite;
 
 namespace BackUp
 {
     public partial class BackUpForm : Form
     {
+        public SQLiteConnection connection;
         public BackUpForm()
         {
             InitializeComponent();
@@ -22,31 +24,52 @@ namespace BackUp
 
         private void BackUpForm_Load(object sender, EventArgs e)
         {
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
-            string s = config.FilePath;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            string[] listPath = Settings.Default.WatchListPath.Split(';');
-            string[] listWatch = Settings.Default.WatchListKeepWatch.Split(';');
-            DataTable table = new DataTable();
-            table.Columns.Add("Path", typeof(string));
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
+            string path = Path.GetDirectoryName(config.FilePath);
+            connection = new SQLiteConnection("Data Source = " + path + "\\Tracker.db" + ";Version = 3");
+            if (File.Exists(path + "\\Tracker.db") == false)
+                File.Copy(Application.StartupPath + "\\Tracker.db", path + "\\Tracker.db");
+            connection.Open();
+            UpdateTable();
+        }
+        private void UpdateTable()
+        {
+            DataTable table = GreenSQLite.GetTable("SELECT * FROM backups", connection);
             table.Columns.Add("Keep Watch", typeof(bool));
-            if (listPath != null)
+            foreach (DataRow row in table.Rows)
             {
-                for (int z = 0; z < listPath.Count(); z++)
-                    if (listPath[z] != "")
-                        table.Rows.Add(listPath[z], bool.Parse(listWatch[z]));
+                if (row["watch"].ToString() == "1")
+                    row["Keep Watch"] = true;
+                else
+                    row["Keep Watch"] = false;
             }
             dataBackUps.DataSource = table;
+            dataBackUps.Columns["id"].Visible = false;
+            dataBackUps.Columns["watch"].Visible = false;
+            dataBackUps.Columns["path"].HeaderText = "Path";
+            dataBackUps.Columns["path"].ReadOnly = true;
         }
-
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (Directory.Exists(txtPath.Text) == true)
+            if (txtPath.Text != "")
             {
-                dataBackUps.Rows.Add(txtPath.Text, true);
-                Settings.Default.WatchListPath += txtPath.Text + ";";
-                Settings.Default.WatchListKeepWatch += "true;";
-                Settings.Default.Save();
+                if (Directory.Exists(txtPath.Text) == true)
+                {
+                    if (Settings.Default.KeepWatchOnAdd == true)
+                        GreenSQLite.Execute("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 1)", connection);
+                    else
+                        GreenSQLite.Execute("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 0)", connection);
+                    UpdateTable();
+                }
+                else if (MessageBox.Show("You are about to add a folder their does not exits, are you sure you want to add it?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    if (Settings.Default.KeepWatchOnAdd == true)
+                        GreenSQLite.Execute("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 1)", connection);
+                    else
+                        GreenSQLite.Execute("INSERT INTO backups (path, watch) VALUES('" + txtPath.Text + "', 0)", connection);
+                    UpdateTable();
+                }
             }
         }
 
@@ -63,28 +86,18 @@ namespace BackUp
             btnOffOn.Enabled = true;
             btnOpen.Enabled = true;
             btnRestore.Enabled = true;
+            btnDelete.Enabled = true;
         }
 
         private void dataBackUps_RowLeave(object sender, DataGridViewCellEventArgs e)
         {
-            string[] listPath = Settings.Default.WatchListPath.Split(';');
-            string[] listWatch = Settings.Default.WatchListKeepWatch.Split(';');
-            listPath[e.RowIndex] = dataBackUps.Rows[e.RowIndex].Cells[0].Value.ToString();
-            listWatch[e.RowIndex] = dataBackUps.Rows[e.RowIndex].Cells[1].Value.ToString();
-            Settings.Default.WatchListPath = "";
-            Settings.Default.WatchListKeepWatch = "";
-            for (int z = 0; z < listPath.Count(); z++)
+            if (dataBackUps.SelectedRows.Count == 0)
             {
-                if (listPath[z] != "")
-                {
-                    Settings.Default.WatchListPath += listPath[z] + ";";
-                    Settings.Default.WatchListKeepWatch += listWatch + ";";
-                }
+                btnOffOn.Enabled = false;
+                btnOpen.Enabled = false;
+                btnRestore.Enabled = false;
+                btnDelete.Enabled = false;
             }
-            Settings.Default.Save();
-            btnOffOn.Enabled = false;
-            btnOpen.Enabled = false;
-            btnRestore.Enabled = false;
         }
 
         private void toolOptions_Click(object sender, EventArgs e)
@@ -124,23 +137,39 @@ namespace BackUp
             this.Focus();
         }
 
-        private void dataBackUps_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        private void dataBackUps_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            string[] listPath = Settings.Default.WatchListPath.Split(';');
-            string[] listWatch = Settings.Default.WatchListKeepWatch.Split(';');
-            listPath[e.RowIndex] = "";
-            listWatch[e.RowIndex] = "";
-            Settings.Default.WatchListPath = "";
-            Settings.Default.WatchListKeepWatch = "";
-            for (int z = 0; z < listPath.Count(); z++)
+            if ((bool)dataBackUps.Rows[e.RowIndex].Cells["Keep Watch"].Value == true)
             {
-                if (listPath[z] != "")
-                {
-                    Settings.Default.WatchListPath += listPath[z] + ";";
-                    Settings.Default.WatchListKeepWatch += listWatch + ";";
-                }
+                dataBackUps.Rows[e.RowIndex].Cells["watch"].Value = "1";
+                GreenSQLite.Execute("UPDATE backups SET watch = 1 WHERE id = " + dataBackUps.Rows[e.RowIndex].Cells["id"].Value.ToString(), connection);
             }
-            Settings.Default.Save();
+            else
+            {
+                dataBackUps.Rows[e.RowIndex].Cells["watch"].Value = "0";
+                GreenSQLite.Execute("UPDATE backups SET watch = 0 WHERE id = " + dataBackUps.Rows[e.RowIndex].Cells["id"].Value.ToString(), connection);
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            GreenSQLite.Execute("DELETE FROM backups WHERE id = " + dataBackUps.SelectedRows[0].Cells["id"].Value.ToString(), connection);
+            dataBackUps.Rows.RemoveAt(dataBackUps.SelectedRows[0].Index);
+            if (dataBackUps.SelectedRows.Count == 0)
+            {
+                btnOffOn.Enabled = false;
+                btnOpen.Enabled = false;
+                btnRestore.Enabled = false;
+                btnDelete.Enabled = false;
+            }
+        }
+
+        private void dataBackUps_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Delete)
+            {
+                GreenSQLite.Execute("DELETE FROM backups WHERE id = " + dataBackUps.SelectedRows[0].Cells["id"].Value.ToString(), connection);
+            }
         }
     }
 }

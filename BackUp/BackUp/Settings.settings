@@ -11,12 +11,6 @@
     <Setting Name="UpdateByEdit" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="WatchListPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="WatchListKeepWatch" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="BackUpFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
@@ -49,6 +43,9 @@
     </Setting>
     <Setting Name="UpdateByTimeMins" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="KeepWatchOnAdd" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

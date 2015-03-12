@@ -31,3 +31,6 @@ C:\Users\Rene\Desktop\BackUp\BackUp\obj\Debug\BackUp.Location.resources
 C:\Users\Rene\Desktop\BackUp\BackUp\obj\Debug\BackUp.Options.resources
 C:\Users\Rene\Desktop\BackUp\BackUp\obj\Debug\BackUp.Properties.Resources.resources
 C:\Users\Rene\Desktop\BackUp\BackUp\obj\Debug\BackUp.csproj.GenerateResource.Cache
+C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\bin\Debug\Tracker.db
+C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\bin\Debug\System.Data.SQLite.dll
+C:\Users\Rene\Documents\BackProgram\BackUp\BackUp\bin\Debug\System.Data.SQLite.pdb

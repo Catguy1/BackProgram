@@ -52,6 +52,8 @@
             this.rbComZip = new System.Windows.Forms.RadioButton();
             this.rbComNone = new System.Windows.Forms.RadioButton();
             this.chStart = new System.Windows.Forms.CheckBox();
+            this.lblCount = new System.Windows.Forms.Label();
+            this.chKeepWatchOnAdd = new System.Windows.Forms.CheckBox();
             this.groupBackUpWhy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.barAmounts)).BeginInit();
             this.groupCompression.SuspendLayout();
@@ -139,7 +141,7 @@
             this.txtMins.Size = new System.Drawing.Size(24, 22);
             this.txtMins.TabIndex = 6;
             this.txtMins.Text = "00";
-            this.txtMins.TextChanged += new System.EventHandler(this.TextChanged);
+            this.txtMins.TextChanged += new System.EventHandler(this.NrOnly);
             this.txtMins.Leave += new System.EventHandler(this.txtMins_Leave);
             // 
             // txtHours
@@ -151,7 +153,7 @@
             this.txtHours.Size = new System.Drawing.Size(24, 22);
             this.txtHours.TabIndex = 5;
             this.txtHours.Text = "12";
-            this.txtHours.TextChanged += new System.EventHandler(this.TextChanged);
+            this.txtHours.TextChanged += new System.EventHandler(this.NrOnly);
             this.txtHours.Leave += new System.EventHandler(this.txtHours_Leave);
             // 
             // rbUpdateWhenTime
@@ -184,7 +186,7 @@
             this.txtMin.Size = new System.Drawing.Size(72, 22);
             this.txtMin.TabIndex = 2;
             this.txtMin.Text = "120";
-            this.txtMin.TextChanged += new System.EventHandler(this.TextChanged);
+            this.txtMin.TextChanged += new System.EventHandler(this.NrOnly);
             this.txtMin.Leave += new System.EventHandler(this.txtMin_Leave);
             // 
             // rbUpdateInRegion
@@ -218,6 +220,7 @@
             this.barAmounts.Size = new System.Drawing.Size(104, 56);
             this.barAmounts.TabIndex = 5;
             this.barAmounts.Value = 1;
+            this.barAmounts.Scroll += new System.EventHandler(this.barAmounts_Scroll);
             // 
             // lblBackups
             // 
@@ -285,11 +288,34 @@
             this.chStart.Text = "Start up on start";
             this.chStart.UseVisualStyleBackColor = true;
             // 
+            // lblCount
+            // 
+            this.lblCount.AutoSize = true;
+            this.lblCount.Location = new System.Drawing.Point(261, 268);
+            this.lblCount.Name = "lblCount";
+            this.lblCount.Size = new System.Drawing.Size(16, 17);
+            this.lblCount.TabIndex = 9;
+            this.lblCount.Text = "1";
+            // 
+            // chKeepWatchOnAdd
+            // 
+            this.chKeepWatchOnAdd.AutoSize = true;
+            this.chKeepWatchOnAdd.Checked = true;
+            this.chKeepWatchOnAdd.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chKeepWatchOnAdd.Location = new System.Drawing.Point(153, 299);
+            this.chKeepWatchOnAdd.Name = "chKeepWatchOnAdd";
+            this.chKeepWatchOnAdd.Size = new System.Drawing.Size(151, 21);
+            this.chKeepWatchOnAdd.TabIndex = 10;
+            this.chKeepWatchOnAdd.Text = "Keep watch on add";
+            this.chKeepWatchOnAdd.UseVisualStyleBackColor = true;
+            // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(788, 330);
+            this.Controls.Add(this.chKeepWatchOnAdd);
+            this.Controls.Add(this.lblCount);
             this.Controls.Add(this.chStart);
             this.Controls.Add(this.groupCompression);
             this.Controls.Add(this.lblBackups);
@@ -342,5 +368,7 @@
         private System.Windows.Forms.RadioButton rbComNone;
         private System.Windows.Forms.RadioButton rbUdateManual;
         private System.Windows.Forms.CheckBox chStart;
+        private System.Windows.Forms.Label lblCount;
+        private System.Windows.Forms.CheckBox chKeepWatchOnAdd;
     }
 }

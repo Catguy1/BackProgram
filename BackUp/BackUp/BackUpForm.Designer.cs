@@ -13,6 +13,7 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
+            connection.Close();
             if (disposing && (components != null))
             {
                 components.Dispose();
@@ -104,6 +105,7 @@
             // dataBackUps
             // 
             this.dataBackUps.AllowUserToAddRows = false;
+            this.dataBackUps.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataBackUps.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataBackUps.Location = new System.Drawing.Point(12, 31);
             this.dataBackUps.MultiSelect = false;
@@ -112,9 +114,10 @@
             this.dataBackUps.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataBackUps.Size = new System.Drawing.Size(662, 464);
             this.dataBackUps.TabIndex = 0;
+            this.dataBackUps.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataBackUps_CellEndEdit);
             this.dataBackUps.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataBackUps_RowEnter);
             this.dataBackUps.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataBackUps_RowLeave);
-            this.dataBackUps.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataBackUps_RowsRemoved);
+            this.dataBackUps.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataBackUps_KeyDown);
             // 
             // btnAdd
             // 
@@ -183,6 +186,7 @@
             this.btnDelete.TabIndex = 4;
             this.btnDelete.Text = "Delete From BackUp List";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnOffOn
             // 

@@ -62,30 +62,6 @@ namespace BackUp {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string WatchListPath {
-            get {
-                return ((string)(this["WatchListPath"]));
-            }
-            set {
-                this["WatchListPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string WatchListKeepWatch {
-            get {
-                return ((string)(this["WatchListKeepWatch"]));
-            }
-            set {
-                this["WatchListKeepWatch"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string BackUpFolder {
             get {
                 return ((string)(this["BackUpFolder"]));
@@ -212,6 +188,18 @@ namespace BackUp {
             }
             set {
                 this["UpdateByTimeMins"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool KeepWatchOnAdd {
+            get {
+                return ((bool)(this["KeepWatchOnAdd"]));
+            }
+            set {
+                this["KeepWatchOnAdd"] = value;
             }
         }
     }

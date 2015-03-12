@@ -35,6 +35,7 @@ namespace BackUp
             txtHours.Text = Settings.Default.UpdateByTimeHours.ToString();
             txtMins.Text = Settings.Default.UpdateByTimeMins.ToString();
             txtMin.Text = Settings.Default.UpdateByMinsMins.ToString();
+            chKeepWatchOnAdd.Checked = Settings.Default.KeepWatchOnAdd;
         }
 
         private void rbTime_CheckedChanged(object sender, EventArgs e)
@@ -89,6 +90,7 @@ namespace BackUp
             Settings.Default.UpdateByTimeHours = int.Parse(txtHours.Text);
             Settings.Default.UpdateByTimeMins = int.Parse(txtMins.Text);
             Settings.Default.UpdateByMinsMins = int.Parse(txtMin.Text);
+            Settings.Default.KeepWatchOnAdd = chKeepWatchOnAdd.Checked;
             Settings.Default.Save();
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.Close();
@@ -100,7 +102,7 @@ namespace BackUp
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
         }
 
-        private void TextChanged(object sender, EventArgs e)
+        private void NrOnly(object sender, EventArgs e)
         {
             for (int z = 0; z < txtMin.Text.Length; z++)
             {
@@ -136,8 +138,13 @@ namespace BackUp
 
         private void txtMin_Leave(object sender, EventArgs e)
         {
-            if (txtMin.Text == "")
+            if (txtMin.Text == "" || int.Parse(txtMin.Text) == 0)
                 txtMin.Text = "1";
+        }
+
+        private void barAmounts_Scroll(object sender, EventArgs e)
+        {
+            lblCount.Text = barAmounts.Value.ToString();
         }
     }
 }
