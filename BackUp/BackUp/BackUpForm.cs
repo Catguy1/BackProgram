@@ -33,8 +33,9 @@ namespace BackUp
             string path = Path.GetDirectoryName(config.FilePath);
             if (Directory.Exists(path) == false)
             {
-                Settings.Default.BackUpFolder = "c\\:";
+                Settings.Default.BackUpFolder = path + "\\BackUpFolder";
                 Settings.Default.Save();
+                Directory.CreateDirectory(path + "\\BackUpFolder");
             }
             if (File.Exists(path + "\\Tracker.db") == false)
                 File.Copy(Application.StartupPath + "\\Tracker.db", path + "\\Tracker.db");
