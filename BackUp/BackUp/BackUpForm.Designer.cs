@@ -232,7 +232,6 @@
             this.btnOpen.Text = "Open Place";
             this.toolTip1.SetToolTip(this.btnOpen, "Opens the location of the selected backup");
             this.btnOpen.UseVisualStyleBackColor = true;
-            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // btnRestore
             // 
@@ -245,7 +244,6 @@
             this.btnRestore.Text = "Restore/Replace";
             this.toolTip1.SetToolTip(this.btnRestore, "Restore the selected folder using the backup");
             this.btnRestore.UseVisualStyleBackColor = true;
-            this.btnRestore.Click += new System.EventHandler(this.btnRestore_Click);
             // 
             // label1
             // 

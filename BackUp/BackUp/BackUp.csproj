@@ -60,6 +60,7 @@
     <Compile Include="BackUpForm.Designer.cs">
       <DependentUpon>BackUpForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="GreenFileSystem.cs" />
     <Compile Include="GreenSQLite.cs" />
     <Compile Include="Location.cs">
       <SubType>Form</SubType>

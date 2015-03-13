@@ -76,7 +76,15 @@ namespace BackUp
         }
         private void Save()
         {
-            Settings.Default.BackUpFolder = txtBackUpLocation.Text;
+            if (txtBackUpLocation.Text != Settings.Default.BackUpFolder)
+            {
+                GreenFileSystem.DirectoryCopy(Settings.Default.BackUpFolder, txtBackUpLocation.Text + "\\" + GreenFileSystem.GetName(Settings.Default.BackUpFolder));
+                if (Directory.Exists(Settings.Default.BackUpFolder))
+                {
+                    Directory.Delete(Settings.Default.BackUpFolder);
+                }
+            }
+            Settings.Default.BackUpFolder = txtBackUpLocation.Text + "\\" + GreenFileSystem.GetName(Settings.Default.BackUpFolder);
             Settings.Default.BackVersionsKeep = barAmounts.Value;
             Settings.Default.UpdateByClose = rbComputerClosing.Checked;
             Settings.Default.CompressNone = rbComNone.Checked;
